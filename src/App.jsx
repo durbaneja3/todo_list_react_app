@@ -1,5 +1,8 @@
 import "./App.css";
 import { useState } from "react";
+import Header from "./components/Header";
+import TodoInput from "./components/TodoInput";
+import TodoItem from "./components/TodoItem";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -43,37 +46,24 @@ function App() {
 
   return (
     <div className="App">
-      <h1>To Do List</h1>
-      {!isEditing ? (
-        <form onSubmit={handleForm}>
-          <input
-            value={todo.name}
-            onChange={(e) => setTodo({ ...todo, name: e.target.value })}
-            placeholder="Enter todo"
-          ></input>
-          <button>Submit</button>
-        </form>
-      ) : (
-        <form onSubmit={updateForm}>
-          <input
-            value={selectedTodo.name}
-            onChange={(e) =>
-              setSelectedTodo({ ...selectedTodo, name: e.target.value })
-            }
-            placeholder="Update todo"
-          ></input>
-          <button>Submit</button>
-        </form>
-      )}
+      <Header />
+      <TodoInput
+        todo={todo}
+        isEditing={isEditing}
+        handleForm={handleForm}
+        setTodo={setTodo}
+        updateForm={updateForm}
+        setSelectedTodo={setSelectedTodo}
+        selectedTodo={selectedTodo}
+      />
       {todos.map((todo) => {
         return (
-          <div className="Todo" key={todo.id}>
-            <p>{todo.name}</p>
-            <div className="Todo-btns">
-              <button onClick={() => updateTodo(todo)}>Update</button>
-              <button onClick={() => deleteTodo(todo)}>Delete</button>
-            </div>
-          </div>
+          <TodoItem
+            todo={todo}
+            updateTodo={updateTodo}
+            deleteTodo={deleteTodo}
+            key={todo.id}
+          />
         );
       })}
     </div>
